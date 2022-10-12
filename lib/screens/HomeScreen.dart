@@ -1,6 +1,9 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,75 +12,91 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-List images = [
-  "Assets/images/apartment.png",
-  "Assets/images/villa.png",
-  "Assets/images/ofice.png",
-  "Assets/images/shop.png",
+List content = [
+  {"image": "Assets/images/apartment.png", "name": "apartment"},
+  {"image": "Assets/images/villa.png", "name": "Villas"},
+  {"image": "Assets/images/ofice.png", "name": "Offices"},
+  {"image": "Assets/images/shop.png", "name": "Shops"},
 ];
 
 class _HomeScreenState extends State<HomeScreen> {
-  var dummy;
-  @override
-  void initState() {
-    super.initState();
-    dummy = _getimages();
-    print("data ${dummy}");
-  }
-
-  _getimages() async {
-    var imagelist = await images;
-    print(imagelist);
-    return imagelist;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text('HomeScreen'),
-      ),
-      body: FutureBuilder(
-          future: _getimages(),
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.hasError) print(snapshot.error);
-            return snapshot.hasData
-                ? Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Text('Real Estate \n Benghazi'),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 1,
-                            mainAxisSpacing: 1,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            List reslist = snapshot.data;
-                            return Card(
-                              child: Container(
-                                width: 120,
-                                child: Image.asset(
-                                  reslist[index].toString(),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            'BRE',
+            style: TextStyle(
+              fontSize: 40.sp,
+              color: Colors.black,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: Align(
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 8.h,
+              ),
+              Text(
+                'Real Estate \n Benghazi',
+                style: TextStyle(
+                  fontSize: 40.sp,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GridView.builder(
+                shrinkWrap: true,
+                itemCount: content.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.5.w),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Card(
+                        elevation: 1.h,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                content[index]["image"].toString(),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                content[index]["name"].toString(),
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            );
-                          },
+                            )
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  )
-                : Center(child: CircularProgressIndicator());
-          }),
-    );
+                  );
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }

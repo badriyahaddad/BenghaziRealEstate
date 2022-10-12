@@ -1,9 +1,10 @@
 import 'package:bre/Settings/Tapbar.dart';
 import 'package:bre/screens/HomeScreen.dart';
 import 'package:bre/screens/SplachScreen.dart';
-import 'package:bre/screens/Task.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
+import 'Settings/BottomNavigationBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: HomeScreen(),
+        home: BottomNavigation(),
       );
     });
   }
